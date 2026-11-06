@@ -1,0 +1,1252 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071C70">
+<title>JULFERIIN TRANS</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root{
+ --navy:#071C70;
+ --blue:#063DBE;
+ --cyan:#08BDF5;
+ --pink:#F00091;
+ --white:#fff;
+ --bg:#EEF3FF;
+ --dark:#17213D;
+ --green:#138A56;
+ --red:#C9364C;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;background:var(--bg);color:var(--dark);
+ font-family:Arial,sans-serif;
+}
+header{
+ background:linear-gradient(120deg,var(--navy),var(--blue),var(--cyan));
+ color:white;padding:19px 15px;
+ border-radius:0 0 22px 22px;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{
+ width:55px;height:55px;border:2px solid white;
+ border-radius:15px;display:grid;place-items:center;
+ font-size:21px;font-weight:bold;
+ background:linear-gradient(135deg,var(--pink),var(--blue),var(--cyan));
+}
+.brand h1{font-size:21px;margin:0}
+.brand small{font-size:10px;letter-spacing:2px}
+main{max-width:950px;margin:auto;padding:13px}
+.card{
+ background:white;border-radius:16px;padding:17px;
+ margin-bottom:14px;box-shadow:0 3px 13px #071c7012;
+}
+h2{color:var(--navy);font-size:19px;margin-top:0}
+h3{color:var(--blue)}
+label{display:block;font-size:13px;font-weight:bold;margin-top:9px}
+input,select,textarea{
+ display:block;width:100%;padding:12px;
+ border:1px solid #D5DDF1;border-radius:9px;
+ margin:6px 0 10px;font-size:15px;background:white;
+}
+textarea{min-height:75px;resize:vertical}
+button{
+ border:0;border-radius:9px;padding:12px;
+ font-weight:bold;cursor:pointer;font-size:13px;
+}
+.primary{
+ color:white;background:linear-gradient(100deg,var(--blue),var(--cyan));
+ width:100%;
+}
+.pink{background:var(--pink);color:white}
+.light{background:#E9EFFF;color:var(--navy)}
+.danger{background:#FFE7EB;color:var(--red)}
+.green{background:var(--green);color:white}
+.hidden{display:none!important}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{
+ padding:15px;border-radius:13px;color:white;
+ background:linear-gradient(120deg,var(--navy),var(--blue));
+}
+.stat b{display:block;font-size:25px;margin-bottom:5px}
+.menu{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:15px 0}
+.menu button{
+ background:white;color:var(--navy);border:1px solid #DCE5FF;
+ min-height:75px;
+}
+.menu span{display:block;font-size:23px;margin-bottom:5px}
+.row{display:flex;gap:8px}
+.row>*{flex:1;min-width:0}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12px}
+th,td{padding:9px;border-bottom:1px solid #e1e5ee;text-align:left}
+th{background:#EAF0FF;color:var(--navy)}
+.notice{
+ background:#EAF4FF;border-radius:9px;padding:11px;
+ font-size:13px;margin:10px 0;
+}
+.status{font-size:12px;margin-top:8px}
+.ok{color:var(--green)}
+.err{color:var(--red)}
+.photo{width:110px;height:110px;object-fit:cover;border-radius:12px}
+.actions{display:flex;gap:5px;flex-wrap:wrap}
+.actions button{padding:8px}
+footer{text-align:center;color:#7B849A;font-size:11px;padding:20px}
+hr{border:0;border-top:1px solid #e5e8f0;margin:17px 0}
+@media(min-width:650px){
+ .grid{grid-template-columns:repeat(4,1fr)}
+ .menu{grid-template-columns:repeat(4,1fr)}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="brand">
+  <div class="logo">JT</div>
+  <div>
+   <h1>JULFERIIN TRANS</h1>
+   <small>MOTORCYCLE MANAGEMENT</small>
+  </div>
+ </div>
+</header>
+
+<main>
+
+<!-- IDENTIFICACAO -->
+<section id="login" class="card">
+ <h2>IDENTIFICAÇÃO DO CADASTRANTE</h2>
+ <p class="notice">Introduza os seus dados para aceder ao sistema.</p>
+
+ <label>Nome completo</label>
+ <input id="fullName" placeholder="Nome completo">
+
+ <label>Nome de utilizador</label>
+ <input id="username" placeholder="Ex.: ivan">
+
+ <label>Número de telefone</label>
+ <input id="phone" type="tel" placeholder="Telefone">
+
+ <label>País</label>
+ <select id="country">
+  <option>Moçambique</option>
+  <option>Malawi</option>
+  <option>Tanzânia</option>
+  <option>África do Sul</option>
+  <option>Outro</option>
+ </select>
+
+ <label>Província</label>
+ <select id="province">
+  <option value="">Escolher província</option>
+  <option>Nampula</option>
+  <option>Maputo</option>
+  <option>Maputo Cidade</option>
+  <option>Cabo Delgado</option>
+  <option>Niassa</option>
+  <option>Zambézia</option>
+  <option>Tete</option>
+  <option>Manica</option>
+  <option>Sofala</option>
+  <option>Gaza</option>
+  <option>Inhambane</option>
+  <option>Outra</option>
+ </select>
+
+ <button class="primary" onclick="enterApp()">ENTRAR NO JULFERIIN TRANS</button>
+ <p id="loginMsg" class="status"></p>
+</section>
+
+<!-- PAINEL -->
+<section id="dashboard" class="hidden">
+ <div class="card">
+  <h2>PAINEL PRINCIPAL</h2>
+  <p>Bem-vindo, <b id="welcome"></b></p>
+  <p id="locationText"></p>
+  <p id="connection" class="status"></p>
+  <div class="row">
+   <button class="light" onclick="refreshData()">ATUALIZAR</button>
+   <button class="danger" onclick="logout()">SAIR</button>
+  </div>
+ </div>
+
+ <div class="grid">
+  <div class="stat"><b id="totalMotos">0</b> MOTAS</div>
+  <div class="stat"><b id="totalDrivers">0</b> TAXISTAS</div>
+  <div class="stat"><b id="totalPaid">0</b> PAGAMENTOS</div>
+  <div class="stat"><b id="totalPending">0</b> PENDENTES</div>
+ </div>
+
+ <div class="menu">
+  <button onclick="newMoto()"><span>🏍️</span>REGISTAR MOTA</button>
+  <button onclick="showMotos()"><span>📋</span>LISTA DE MOTAS</button>
+  <button onclick="paymentPage()"><span>💳</span>PAGAMENTOS</button>
+  <button onclick="monthlyPage()"><span>📊</span>RELATÓRIOS</button>
+ </div>
+
+ <div class="card">
+  <h3>REGISTOS RECENTES</h3>
+  <div id="recent"></div>
+ </div>
+</section>
+
+<!-- CADASTRO MOTA -->
+<section id="motoForm" class="card hidden">
+ <h2>REGISTAR NOVA MOTA</h2>
+
+ <label>Nome da mota</label>
+ <input id="mName">
+
+ <label>Número da mota</label>
+ <input id="mNumber">
+
+ <label>Marca</label>
+ <input id="mBrand">
+
+ <label>Número do motor</label>
+ <input id="mEngine">
+
+ <label>Kilometragem</label>
+ <input id="mKm" type="number" min="0">
+
+ <label>Cor</label>
+ <input id="mColor">
+
+ <label>Número de matrícula</label>
+ <input id="mPlate">
+
+ <div class="row">
+  <button class="light" onclick="page('dashboard')">VOLTAR</button>
+  <button class="primary" onclick="saveMoto()">GUARDAR MOTA</button>
+ </div>
+ <p id="motoMsg" class="status"></p>
+</section>
+
+<!-- CONTRATO -->
+<section id="contract" class="card hidden">
+ <h2>CREATE BORDER BORDER</h2>
+ <p class="notice">Dados do motorista responsável pela mota.</p>
+
+ <label>Nome completo do taxista</label>
+ <input id="dName">
+
+ <label>Tipo de documento</label>
+ <select id="dType">
+  <option>BI</option>
+  <option>PASSAPORTE</option>
+  <option>DIRE</option>
+ </select>
+
+ <label>Número do documento</label>
+ <input id="dNumber">
+
+ <label>Morada</label>
+ <textarea id="dAddress"></textarea>
+
+ <label>Contacto</label>
+ <input id="dPhone" type="tel">
+
+ <hr>
+ <h3>TESTEMUNHA</h3>
+
+ <label>Nome da testemunha</label>
+ <input id="wName">
+
+ <label>Tipo de documento</label>
+ <select id="wType">
+  <option>BI</option>
+  <option>CÉDULA</option>
+  <option>PASSAPORTE</option>
+  <option>DIRE</option>
+ </select>
+
+ <label>Número do documento</label>
+ <input id="wNumber">
+
+ <hr>
+ <h3>ENTREGA DA MOTA</h3>
+
+ <label>Empresa responsável</label>
+ <input id="company">
+
+ <label>Data de entrega</label>
+ <input id="deliveryDate" type="date">
+
+ <label>Responsável pela entrega</label>
+ <input id="deliveryPerson">
+
+ <label>Pagamento diário (MT)</label>
+ <input id="dailyValue" type="number" min="0">
+
+ <label>Observações</label>
+ <textarea id="observations"></textarea>
+
+ <label>Fotografia do taxista</label>
+ <input id="driverPhoto" type="file" accept="image/*">
+
+ <img id="photoPreview" class="photo hidden">
+
+ <button class="primary" onclick="saveContract()">GUARDAR CONTRATO</button>
+ <button class="light" onclick="page('dashboard')">VOLTAR</button>
+ <p id="contractMsg" class="status"></p>
+</section>
+
+<!-- TAX -->
+<section id="emit" class="card hidden">
+ <h2>EMISSÃO TAX MOTA</h2>
+ <p>A mota foi guardada. Deseja emitir o número TAX MOTA?</p>
+ <button class="primary" onclick="emitTax()">SIM - EMITIR TAX MOTA</button>
+ <button class="light" onclick="finishWithoutTax()">NÃO, MAIS TARDE</button>
+ <p id="taxMsg" class="status"></p>
+</section>
+
+<!-- LISTA -->
+<section id="motoList" class="card hidden">
+ <h2>LISTA DE MOTAS</h2>
+ <button class="primary" onclick="newMoto()">+ REGISTAR MOTA</button>
+ <input id="search" placeholder="Pesquisar mota, matrícula, TAX ou taxista" oninput="renderMotos()">
+ <div id="motoTable" class="tablewrap"></div>
+ <button class="light" onclick="page('dashboard')">VOLTAR</button>
+</section>
+
+<!-- DETALHES -->
+<section id="details" class="card hidden">
+ <h2>DETALHES DA MOTA</h2>
+ <div id="detailContent"></div>
+ <button class="primary" onclick="printRecord()">IMPRIMIR / GUARDAR PDF</button>
+ <button class="pink" onclick="paymentFromDetails()">REGISTAR PAGAMENTO</button>
+ <button class="light" onclick="page('motoList')">VOLTAR</button>
+</section>
+
+<!-- PAGAMENTOS -->
+<section id="paymentForm" class="card hidden">
+ <h2>GESTÃO DE PAGAMENTOS</h2>
+
+ <label>Mota</label>
+ <select id="payMoto"></select>
+
+ <label>Data</label>
+ <input id="payDate" type="date">
+
+ <label>Hora</label>
+ <input id="payTime" type="time">
+
+ <label>Estado do pagamento</label>
+ <select id="payStatus">
+  <option value="PAGO">PAGOU</option>
+  <option value="NAO_PAGO">NÃO PAGOU</option>
+ </select>
+
+ <label>Valor (MT)</label>
+ <input id="payAmount" type="number" min="0">
+
+ <label>Observações</label>
+ <textarea id="payObs"></textarea>
+
+ <button class="primary" onclick="savePayment()">GUARDAR PAGAMENTO</button>
+ <button class="light" onclick="cancelPaymentEdit()">CANCELAR E VOLTAR</button>
+
+ <hr>
+ <h3>HISTÓRICO DE PAGAMENTOS</h3>
+ <div id="paymentTable" class="tablewrap"></div>
+</section>
+
+<!-- RELATORIO -->
+<section id="monthly" class="card hidden">
+ <h2>RELATÓRIO MENSAL</h2>
+
+ <label>Escolher mês</label>
+ <input id="monthFilter" type="month" onchange="renderMonthly()">
+
+ <div id="monthlyReport" class="tablewrap"></div>
+
+ <button class="primary" onclick="printMonthly()">IMPRIMIR / GUARDAR PDF</button>
+ <button class="light" onclick="page('dashboard')">VOLTAR</button>
+</section>
+
+</main>
+
+<footer>
+ JULFERIIN TRANS © 2026<br>
+ Sistema de Gestão de Motas e Border Border
+</footer>
+
+<script>
+// ==========================================
+// 1. CONFIGURACAO SUPABASE
+// ==========================================
+
+const SUPABASE_URL =
+'https://fmsphkisybspsiemeosi.supabase.co';
+
+const SUPABASE_KEY =
+'sb_publishable_Sk9cxGvEBW1L8K13ApMjmA_9tPHFofE';
+
+const db = window.supabase.createClient(
+ SUPABASE_URL,
+ SUPABASE_KEY
+);
+
+// ==========================================
+// 2. ESTADO DO APLICATIVO
+// ==========================================
+
+let user = null;
+let motos = [];
+let payments = [];
+let pendingMoto = null;
+let selectedMoto = null;
+let photoFile = null;
+let editingPayment = null;
+
+const $ = id => document.getElementById(id);
+
+function page(id){
+ document.querySelectorAll(
+ '#login,#dashboard,#motoForm,#contract,#emit,#motoList,#details,#paymentForm,#monthly'
+ ).forEach(el=>el.classList.add('hidden'));
+
+ $(id).classList.remove('hidden');
+ window.scrollTo(0,0);
+}
+
+function message(id,text,type=''){
+ const el=$(id);
+ if(!el)return;
+ el.textContent=text;
+ el.className='status '+type;
+}
+
+function safe(value){
+ return String(value??'').replace(/[&<>"']/g,c=>({
+  '&':'&amp;',
+  '<':'&lt;',
+  '>':'&gt;',
+  '"':'&quot;',
+  "'":'&#39;'
+ })[c]);
+}
+
+function keyUser(){
+ return user.username.toLowerCase()+'|'+user.phone;
+}
+
+function cacheKey(){
+ return 'julferiin_trans_cache_'+keyUser();
+}
+
+function myMotos(){
+ return motos;
+}
+
+// ==========================================
+// 3. ARMAZENAMENTO LOCAL
+// ==========================================
+
+function saveLocalData(){
+ if(!user)return;
+
+ try{
+  localStorage.setItem(cacheKey(),JSON.stringify({
+   motos:motos,
+   payments:payments,
+   savedAt:new Date().toISOString()
+  }));
+ }catch(e){
+  console.error('Erro local:',e);
+ }
+}
+
+function restoreLocalData(){
+ if(!user)return false;
+
+ try{
+  const saved=JSON.parse(
+   localStorage.getItem(cacheKey())||'{}'
+  );
+
+  motos=saved.motos||[];
+  payments=saved.payments||[];
+  return true;
+ }catch(e){
+  motos=[];
+  payments=[];
+  return false;
+ }
+}
+
+// ==========================================
+// 4. IDENTIFICACAO SEM AUTH
+// ==========================================
+
+async function enterApp(){
+ const name=$('fullName').value.trim();
+ const username=$('username').value.trim();
+ const phone=$('phone').value.trim();
+ const country=$('country').value;
+ const province=$('province').value;
+
+ if(!name||!username||!phone||!province){
+  message('loginMsg','Preencha todos os campos.','err');
+  return;
+ }
+
+ user={
+  name:name,
+  username:username,
+  phone:phone,
+  country:country,
+  province:province
+ };
+
+ message('loginMsg','A guardar identificação...');
+
+ try{
+  const record={
+   user_id:keyUser(),
+   full_name:name,
+   username:username.toLowerCase(),
+   phone:phone,
+   country:country,
+   province:province
+  };
+
+  const existing=await db.from('trans_registrants')
+   .select('user_id')
+   .eq('user_id',keyUser())
+   .maybeSingle();
+
+  if(existing.error)throw existing.error;
+
+  let result;
+
+  if(existing.data){
+   result=await db.from('trans_registrants')
+    .update(record)
+    .eq('user_id',keyUser());
+  }else{
+   result=await db.from('trans_registrants')
+    .insert(record);
+  }
+
+  if(result.error)throw result.error;
+
+  localStorage.setItem(
+   'julferiin_trans_user',
+   JSON.stringify(user)
+  );
+
+  $('welcome').textContent=user.name;
+  $('locationText').textContent=
+   user.country+' | '+user.province;
+
+  await loadData();
+  page('dashboard');
+
+ }catch(error){
+  console.error(error);
+  message('loginMsg','Erro ao guardar: '+error.message,'err');
+ }
+}
+
+// ==========================================
+// 5. CARREGAR DADOS DO SUPABASE
+// ==========================================
+
+async function loadData(){
+ if(!user)return false;
+
+ $('connection').textContent='A sincronizar com Supabase...';
+
+ try{
+  const [mr,pr]=await Promise.all([
+   db.from('trans_motorcycles')
+    .select('*')
+    .eq('user_id',keyUser())
+    .order('created_at',{ascending:false}),
+
+   db.from('trans_payments')
+    .select('*')
+    .eq('user_id',keyUser())
+    .order('payment_date',{ascending:false})
+  ]);
+
+  if(mr.error)throw mr.error;
+  if(pr.error)throw pr.error;
+
+  motos=mr.data||[];
+  payments=pr.data||[];
+
+  saveLocalData();
+  dashboard();
+
+  $('connection').textContent='Ligado ao Supabase. Dados atualizados.';
+  $('connection').className='status ok';
+
+  return true;
+
+ }catch(error){
+  console.error(error);
+
+  restoreLocalData();
+  dashboard();
+
+  $('connection').textContent=
+   'Sem sincronização online. A mostrar cópia local: '+error.message;
+  $('connection').className='status err';
+
+  return false;
+ }
+}
+
+async function refreshData(){
+ await loadData();
+}
+
+// ==========================================
+// 6. PAINEL
+// ==========================================
+
+function dashboard(){
+ $('totalMotos').textContent=motos.length;
+
+ $('totalDrivers').textContent=
+  motos.filter(m=>m.driver&&m.driver.name).length;
+
+ $('totalPaid').textContent=
+  payments.filter(p=>p.status==='PAGO').length;
+
+ $('totalPending').textContent=
+  payments.filter(p=>p.status==='NAO_PAGO').length;
+
+ $('recent').innerHTML=motos.slice(0,5).map(m=>`
+  <div class="notice">
+   <b>${safe(m.tax_number||'TAX PENDENTE')}</b><br>
+   ${safe(m.motorcycle_name)}
+   <button class="light" onclick="details('${m.id}')">VER</button>
+  </div>
+ `).join('')||'Ainda não existem motas registadas.';
+}
+
+// ==========================================
+// 7. SAIR
+// ==========================================
+
+function logout(){
+ user=null;
+ motos=[];
+ payments=[];
+ page('login');
+}
+
+// ==========================================
+// 8. NOVA MOTA
+// ==========================================
+
+function newMoto(){
+ [
+  'mName','mNumber','mBrand','mEngine',
+  'mKm','mColor','mPlate'
+ ].forEach(id=>$(id).value='');
+
+ message('motoMsg','');
+ page('motoForm');
+}
+
+async function saveMoto(){
+ if(!user)return;
+
+ const fields=[
+  'mName','mNumber','mBrand','mEngine',
+  'mKm','mColor','mPlate'
+ ];
+
+ if(fields.some(id=>!$(id).value.trim())){
+  message('motoMsg','Preencha todos os campos.','err');
+  return;
+ }
+
+ const record={
+  user_id:keyUser(),
+  country:user.country,
+  province:user.province,
+  motorcycle_name:$('mName').value.trim(),
+  motorcycle_number:$('mNumber').value.trim(),
+  brand:$('mBrand').value.trim(),
+  engine_number:$('mEngine').value.trim(),
+  mileage:Number($('mKm').value||0),
+  color:$('mColor').value.trim(),
+  plate_number:$('mPlate').value.trim()
+ };
+
+ message('motoMsg','A guardar mota online...');
+
+ try{
+  const {data,error}=await db.from('trans_motorcycles')
+   .insert(record)
+   .select()
+   .single();
+
+  if(error)throw error;
+
+  pendingMoto=data;
+
+  await loadData();
+
+  const answer=confirm(
+   'Mota guardada no Supabase!\n\nDeseja criar contrato Border Border?'
+  );
+
+  if(answer){
+   clearContract();
+   page('contract');
+  }else{
+   page('emit');
+  }
+
+ }catch(error){
+  console.error(error);
+  message('motoMsg','Erro: '+error.message,'err');
+ }
+}
+
+// ==========================================
+// 9. CONTRATO
+// ==========================================
+
+function clearContract(){
+ [
+  'dName','dNumber','dAddress','dPhone',
+  'wName','wNumber','company','deliveryDate',
+  'deliveryPerson','dailyValue','observations'
+ ].forEach(id=>$(id).value='');
+
+ photoFile=null;
+ $('driverPhoto').value='';
+ $('photoPreview').classList.add('hidden');
+}
+
+$('driverPhoto').addEventListener('change',function(){
+ photoFile=this.files[0]||null;
+
+ if(!photoFile)return;
+
+ if(photoFile.size>2*1024*1024){
+  alert('A fotografia deve ter no máximo 2 MB.');
+  this.value='';
+  photoFile=null;
+  return;
+ }
+
+ $('photoPreview').src=URL.createObjectURL(photoFile);
+ $('photoPreview').classList.remove('hidden');
+});
+
+async function saveContract(){
+ if(!pendingMoto){
+  alert('Não foi encontrada a mota.');
+  return;
+ }
+
+ if(
+  !$('dName').value.trim()||
+  !$('dNumber').value.trim()||
+  !$('dPhone').value.trim()||
+  !$('dailyValue').value
+ ){
+  message('contractMsg','Preencha os dados essenciais.','err');
+  return;
+ }
+
+ message('contractMsg','A guardar contrato...');
+
+ try{
+  let photoPath=null;
+
+  if(photoFile){
+   const ext=photoFile.name.split('.').pop().toLowerCase();
+   const path='drivers/'+pendingMoto.id+'.'+ext;
+
+   const upload=await db.storage
+    .from('trans-photos')
+    .upload(path,photoFile,{
+     upsert:true,
+     contentType:photoFile.type
+    });
+
+   if(upload.error)throw upload.error;
+   photoPath=path;
+  }
+
+  const driver={
+   name:$('dName').value.trim(),
+   type:$('dType').value,
+   number:$('dNumber').value.trim(),
+   address:$('dAddress').value,
+   phone:$('dPhone').value.trim(),
+   witness:$('wName').value,
+   witnessType:$('wType').value,
+   witnessNumber:$('wNumber').value,
+   company:$('company').value,
+   deliveryDate:$('deliveryDate').value,
+   deliveryPerson:$('deliveryPerson').value,
+   dailyValue:Number($('dailyValue').value),
+   observations:$('observations').value,
+   photoPath:photoPath
+  };
+
+  const {error}=await db.from('trans_motorcycles')
+   .update({driver:driver})
+   .eq('id',pendingMoto.id)
+   .eq('user_id',keyUser());
+
+  if(error)throw error;
+
+  await loadData();
+  page('emit');
+
+ }catch(error){
+  console.error(error);
+  message('contractMsg','Erro ao guardar contrato: '+error.message,'err');
+ }
+}
+
+// ==========================================
+// 10. TAX MOTA
+// ==========================================
+
+async function emitTax(){
+ if(!pendingMoto)return;
+
+ message('taxMsg','A emitir número TAX MOTA...');
+
+ try{
+  const {data,error}=await db.rpc('trans_emit_tax',{
+   p_motorcycle_id:pendingMoto.id
+  });
+
+  if(error)throw error;
+
+  alert('TAX MOTA emitido com sucesso!\n\n'+data);
+
+  pendingMoto=null;
+  await loadData();
+  page('dashboard');
+
+ }catch(error){
+  console.error(error);
+  message('taxMsg','Erro ao emitir TAX: '+error.message,'err');
+ }
+}
+
+function finishWithoutTax(){
+ pendingMoto=null;
+ page('dashboard');
+}
+
+// ==========================================
+// 11. LISTA E PESQUISA
+// ==========================================
+
+async function showMotos(){
+ await loadData();
+ $('search').value='';
+ renderMotos();
+ page('motoList');
+}
+
+function renderMotos(){
+ const q=$('search').value.toLowerCase();
+
+ const list=motos.filter(m=>
+  [
+   m.motorcycle_name,
+   m.motorcycle_number,
+   m.plate_number,
+   m.tax_number,
+   m.driver?.name
+  ].join(' ').toLowerCase().includes(q)
+ );
+
+ $('motoTable').innerHTML=`
+ <table>
+ <tr>
+  <th>TAX</th>
+  <th>MOTA</th>
+  <th>MATRÍCULA</th>
+  <th>AÇÃO</th>
+ </tr>
+ ${list.map(m=>`
+  <tr>
+   <td>${safe(m.tax_number||'Pendente')}</td>
+   <td>${safe(m.motorcycle_name)}</td>
+   <td>${safe(m.plate_number)}</td>
+   <td><button class="light" onclick="details('${m.id}')">VER</button></td>
+  </tr>
+ `).join('')}
+ </table>
+ ${list.length?'':'Nenhuma mota encontrada.'}
+ `;
+}
+
+// ==========================================
+// 12. DETALHES DA MOTA
+// ==========================================
+
+async function details(id){
+ await loadData();
+
+ const m=motos.find(x=>x.id===id);
+ if(!m)return;
+
+ selectedMoto=m;
+ const d=m.driver||{};
+
+ $('detailContent').innerHTML=`
+  <h3>${safe(m.tax_number||'TAX PENDENTE')}</h3>
+  <p><b>Nome da mota:</b> ${safe(m.motorcycle_name)}</p>
+  <p><b>Número:</b> ${safe(m.motorcycle_number)}</p>
+  <p><b>Marca:</b> ${safe(m.brand)}</p>
+  <p><b>Motor:</b> ${safe(m.engine_number)}</p>
+  <p><b>Kilometragem:</b> ${safe(m.mileage)}</p>
+  <p><b>Cor:</b> ${safe(m.color)}</p>
+  <p><b>Matrícula:</b> ${safe(m.plate_number)}</p>
+  <hr>
+  <h3>DADOS DO TAXISTA</h3>
+  <p><b>Nome:</b> ${safe(d.name||'-')}</p>
+  <p><b>Documento:</b> ${safe(d.type||'')} ${safe(d.number||'')}</p>
+  <p><b>Morada:</b> ${safe(d.address||'-')}</p>
+  <p><b>Contacto:</b> ${safe(d.phone||'-')}</p>
+  <p><b>Testemunha:</b> ${safe(d.witness||'-')}</p>
+  <p><b>Documento testemunha:</b> ${safe(d.witnessType||'')} ${safe(d.witnessNumber||'')}</p>
+  <p><b>Empresa:</b> ${safe(d.company||'-')}</p>
+  <p><b>Entrega:</b> ${safe(d.deliveryDate||'-')}</p>
+  <p><b>Responsável:</b> ${safe(d.deliveryPerson||'-')}</p>
+  <p><b>Pagamento diário:</b> ${safe(d.dailyValue||'-')} MT</p>
+  <p><b>Observações:</b> ${safe(d.observations||'-')}</p>
+  ${d.photoPath?'<button class="light" onclick="viewPhoto()">VER FOTOGRAFIA</button>':''}
+ `;
+
+ page('details');
+}
+
+async function viewPhoto(){
+ if(!selectedMoto?.driver?.photoPath)return;
+
+ const {data,error}=await db.storage
+  .from('trans-photos')
+  .createSignedUrl(selectedMoto.driver.photoPath,300);
+
+ if(error){
+  alert(error.message);
+  return;
+ }
+
+ window.open(data.signedUrl,'_blank');
+}
+
+// ==========================================
+// 13. IMPRESSAO DA MOTA
+// ==========================================
+
+function printRecord(){
+ if(!selectedMoto)return;
+
+ const m=selectedMoto;
+ const d=m.driver||{};
+
+ const w=window.open('','_blank');
+ if(!w){
+  alert('Permita abrir janelas para imprimir.');
+  return;
+ }
+
+ w.document.write(`
+ <html><head><title>JULFERIIN TRANS</title>
+ <style>
+ body{font-family:Arial;padding:25px;color:#17213D}
+ h1,h2{color:#063DBE}
+ p{border-bottom:1px solid #ddd;padding:7px}
+ </style></head><body>
+ <h1>JULFERIIN TRANS</h1>
+ <h2>REGISTO TAX MOTA</h2>
+ <h1>${safe(m.tax_number||'PENDENTE')}</h1>
+ <p>Mota: ${safe(m.motorcycle_name)}</p>
+ <p>Número: ${safe(m.motorcycle_number)}</p>
+ <p>Marca: ${safe(m.brand)}</p>
+ <p>Motor: ${safe(m.engine_number)}</p>
+ <p>KM: ${safe(m.mileage)}</p>
+ <p>Cor: ${safe(m.color)}</p>
+ <p>Matrícula: ${safe(m.plate_number)}</p>
+ <h2>DADOS DO TAXISTA</h2>
+ <p>Nome: ${safe(d.name||'-')}</p>
+ <p>Documento: ${safe(d.type||'')} ${safe(d.number||'')}</p>
+ <p>Morada: ${safe(d.address||'-')}</p>
+ <p>Contacto: ${safe(d.phone||'-')}</p>
+ <p>Testemunha: ${safe(d.witness||'-')}</p>
+ <p>Empresa: ${safe(d.company||'-')}</p>
+ <p>Data entrega: ${safe(d.deliveryDate||'-')}</p>
+ <p>Responsável: ${safe(d.deliveryPerson||'-')}</p>
+ <p>Valor diário: ${safe(d.dailyValue||'-')} MT</p>
+ <p>Observações: ${safe(d.observations||'-')}</p>
+ <br>
+ <p>Assinatura do taxista: _______________________</p>
+ <p>Assinatura da testemunha: ____________________</p>
+ <p>Assinatura do responsável: __________________</p>
+ <script>window.onload=()=>window.print();<\/script>
+ </body></html>
+ `);
+
+ w.document.close();
+}
+
+// ==========================================
+// 14. PAGAMENTOS
+// ==========================================
+
+async function paymentPage(id=null){
+ await loadData();
+
+ $('payMoto').innerHTML=
+  '<option value="">Escolher mota</option>'+
+  motos.map(m=>`
+   <option value="${m.id}">
+    ${safe(m.tax_number||m.motorcycle_name)} -
+    ${safe(m.driver?.name||'')}
+   </option>
+  `).join('');
+
+ $('payDate').value=new Date().toISOString().slice(0,10);
+ $('payTime').value=new Date().toTimeString().slice(0,5);
+ $('payStatus').value='PAGO';
+ $('payAmount').value='';
+ $('payObs').value='';
+ editingPayment=null;
+
+ if(id)$('payMoto').value=id;
+
+ renderPayments();
+ page('paymentForm');
+}
+
+function paymentFromDetails(){
+ if(selectedMoto)paymentPage(selectedMoto.id);
+}
+
+async function savePayment(){
+ const moto=motos.find(m=>m.id===$('payMoto').value);
+
+ if(!moto){
+  alert('Escolha uma mota.');
+  return;
+ }
+
+ if(!$('payDate').value){
+  alert('Escolha a data.');
+  return;
+ }
+
+ const status=$('payStatus').value;
+ const amount=Number($('payAmount').value||0);
+
+ if(status==='PAGO'&&amount<=0){
+  alert('Introduza o valor recebido.');
+  return;
+ }
+
+ const record={
+  user_id:keyUser(),
+  motorcycle_id:moto.id,
+  payment_date:$('payDate').value,
+  payment_time:$('payTime').value||null,
+  status:status,
+  amount:amount,
+  observations:$('payObs').value
+ };
+
+ try{
+  let result;
+
+  if(editingPayment){
+   result=await db.from('trans_payments')
+    .update(record)
+    .eq('id',editingPayment)
+    .eq('user_id',keyUser());
+  }else{
+   result=await db.from('trans_payments').insert(record);
+  }
+
+  if(result.error)throw result.error;
+
+  editingPayment=null;
+  await loadData();
+  renderPayments();
+
+  alert('Pagamento guardado no Supabase!');
+
+ }catch(error){
+  console.error(error);
+  alert('Erro ao guardar pagamento: '+error.message);
+ }
+}
+
+function renderPayments(){
+ $('paymentTable').innerHTML=`
+ <table>
+ <tr>
+  <th>DATA</th>
+  <th>MOTA</th>
+  <th>ESTADO</th>
+  <th>VALOR</th>
+  <th>AÇÃO</th>
+ </tr>
+ ${payments.map(p=>{
+  const m=motos.find(x=>x.id===p.motorcycle_id);
+  return `
+   <tr>
+    <td>${safe(p.payment_date)}<br>${safe(p.payment_time||'')}</td>
+    <td>${safe(m?.tax_number||m?.motorcycle_name||'-')}</td>
+    <td>${p.status==='PAGO'?'PAGOU':'NÃO PAGOU'}</td>
+    <td>${safe(p.amount)} MT</td>
+    <td><button class="light" onclick="editPayment('${p.id}')">EDITAR</button></td>
+   </tr>
+  `;
+ }).join('')}
+ </table>
+ ${payments.length?'':'Nenhum pagamento registado.'}
+ `;
+}
+
+function editPayment(id){
+ const p=payments.find(x=>x.id===id);
+ if(!p)return;
+
+ editingPayment=id;
+ $('payMoto').value=p.motorcycle_id;
+ $('payDate').value=p.payment_date;
+ $('payTime').value=p.payment_time||'';
+ $('payStatus').value=p.status;
+ $('payAmount').value=p.amount;
+ $('payObs').value=p.observations||'';
+
+ window.scrollTo(0,0);
+}
+
+function cancelPaymentEdit(){
+ editingPayment=null;
+ page('dashboard');
+}
+
+// ==========================================
+// 15. RELATORIO MENSAL
+// ==========================================
+
+async function monthlyPage(){
+ await loadData();
+
+ $('monthFilter').value=
+  new Date().toISOString().slice(0,7);
+
+ renderMonthly();
+ page('monthly');
+}
+
+function renderMonthly(){
+ const month=$('monthFilter').value;
+
+ const list=payments.filter(p=>
+  String(p.payment_date||'').startsWith(month)
+ );
+
+ const paid=list.filter(p=>p.status==='PAGO');
+ const pending=list.filter(p=>p.status==='NAO_PAGO');
+
+ const total=paid.reduce(
+  (sum,p)=>sum+Number(p.amount||0),0
+ );
+
+ $('monthlyReport').innerHTML=`
+ <h3>${safe(month)}</h3>
+ <p>Pagamentos registados: <b>${list.length}</b></p>
+ <p>Pagamentos recebidos: <b>${paid.length}</b></p>
+ <p>Pagamentos pendentes: <b>${pending.length}</b></p>
+ <p>Total recebido: <b>${total.toLocaleString('pt-MZ')} MT</b></p>
+
+ <table>
+ <tr><th>DATA</th><th>MOTA</th><th>ESTADO</th><th>VALOR</th></tr>
+ ${list.map(p=>{
+  const m=motos.find(x=>x.id===p.motorcycle_id);
+  return `
+   <tr>
+    <td>${safe(p.payment_date)}</td>
+    <td>${safe(m?.tax_number||m?.motorcycle_name||'-')}</td>
+    <td>${p.status==='PAGO'?'PAGOU':'NÃO PAGOU'}</td>
+    <td>${safe(p.amount)} MT</td>
+   </tr>
+  `;
+ }).join('')}
+ </table>
+ `;
+}
+
+function printMonthly(){
+ const w=window.open('','_blank');
+
+ if(!w){
+  alert('Permita abrir janelas para imprimir.');
+  return;
+ }
+
+ w.document.write(`
+ <html><head><title>Relatório JULFERIIN TRANS</title>
+ <style>body{font-family:Arial;padding:20px}</style>
+ </head><body>
+ <h1>JULFERIIN TRANS</h1>
+ <h2>RELATÓRIO MENSAL</h2>
+ ${$('monthlyReport').innerHTML}
+ <script>window.onload=()=>window.print();<\/script>
+ </body></html>
+ `);
+
+ w.document.close();
+}
+
+// ==========================================
+// 16. INICIALIZAR E RECUPERAR UTILIZADOR
+// ==========================================
+
+async function startApp(){
+ try{
+  const saved=localStorage.getItem('julferiin_trans_user');
+
+  if(saved){
+   user=JSON.parse(saved);
+
+   if(user&&user.username&&user.phone){
+    $('welcome').textContent=user.name;
+    $('locationText').textContent=
+     user.country+' | '+user.province;
+
+    restoreLocalData();
+    await loadData();
+    page('dashboard');
+    return;
+   }
+  }
+ }catch(error){
+  console.error(error);
+ }
+
+ page('login');
+}
+
+startApp();
+
+</script>
+</body>
+</html>
